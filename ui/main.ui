@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1188</width>
+    <height>717</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Playfield Pixel Perfect Pro</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../assets/icons/32/pppp.ico</normaloff>../assets/icons/32/pppp.ico</iconset>
+  </property>
+  <property name="whatsThis">
+   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>24</width>
+    <height>24</height>
+   </size>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QMdiArea" name="mdiArea"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1188</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <widget class="QMenu" name="menuFileAsm">
+     <property name="title">
+      <string>ASM</string>
+     </property>
+     <addaction name="actionFileAsmRows_PF0_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_PF0_PF1_PF2_PF0_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_PF0_PF1_PF2_COLUPF_COLUBK"/>
+     <addaction name="actionFileAsmRows_PF0_PF1_PF2_COLUPF"/>
+     <addaction name="actionFileAsmRows_PF0_PF1_PF2_COLUBK"/>
+     <addaction name="actionFileAsmRows_PF0_PF1_PF2_PF0_PF1_PF2_COLUPF_COLUBK"/>
+     <addaction name="actionFileAsmRows_PF0_PF1_PF2_PF0_PF1_PF2_COLUPF"/>
+     <addaction name="actionFileAsmRows_PF0_PF1_PF2_PF0_PF1_PF2_COLUBK"/>
+     <addaction name="actionFileAsmRows_PF0_COLUPF_PF1_PF2_PF0_COLUPF_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_PF0_COLUBK_PF1_PF2_PF0_COLUBK_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_PF0_COLUPF_PF1_PF2_PF0_COLUPF_PF1_PF2_COLUBK"/>
+     <addaction name="actionFileAsmRows_PF0_COLUBK_PF1_PF2_PF0_COLUBK_PF1_PF2_COLUPF"/>
+     <addaction name="actionFileAsmRows_COLUPF_COLUBK_PF0_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_COLUPF_PF0_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_COLUBK_PF0_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_COLUPF_COLUBK_PF0_PF1_PF2_PF0_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_COLUPF_PF0_PF1_PF2_PF0_PF1_PF2"/>
+     <addaction name="actionFileAsmRows_COLUBK_PF0_PF1_PF2_PF0_PF1_PF2"/>
+     <addaction name="separator"/>
+     <addaction name="actionFileAsmRegisters"/>
+    </widget>
+    <addaction name="actionFileNew"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileSave"/>
+    <addaction name="actionFileSaveAs"/>
+    <addaction name="separator"/>
+    <addaction name="menuFileAsm"/>
+    <addaction name="actionFileExportToPng"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileLoad"/>
+    <addaction name="separator"/>
+    <addaction name="actionFilePrint"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileExit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <widget class="QMenu" name="menuEditToolbox">
+     <property name="title">
+      <string>Toolbox</string>
+     </property>
+     <addaction name="actionEditToolboxPen"/>
+     <addaction name="actionEditToolboxBrush"/>
+     <addaction name="actionEditToolboxSelection"/>
+     <addaction name="actionEditToolboxEraser"/>
+     <addaction name="actionEditToolboxBucket"/>
+     <addaction name="actionEditToolboxColorPicker"/>
+     <addaction name="actionEditToolboxLine"/>
+    </widget>
+    <widget class="QMenu" name="menuEditSelection">
+     <property name="title">
+      <string>Selection</string>
+     </property>
+     <addaction name="actionEditSelectionMoveUp"/>
+     <addaction name="actionEditSelectionMoveDown"/>
+     <addaction name="actionEditSelectionMoveLeft"/>
+     <addaction name="actionEditSelectionMoveRight"/>
+     <addaction name="actionEditSelectionText"/>
+     <addaction name="actionEditSelectionCopy"/>
+     <addaction name="actionEditSelectionCut"/>
+     <addaction name="actionEditSelectionDelete"/>
+    </widget>
+    <addaction name="menuEditToolbox"/>
+    <addaction name="separator"/>
+    <addaction name="actionEditClear"/>
+    <addaction name="separator"/>
+    <addaction name="actionEditUndo"/>
+    <addaction name="actionEditRedo"/>
+    <addaction name="menuEditSelection"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="actionViewZoomIn"/>
+    <addaction name="actionViewZoomOut"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewForegroundPalette"/>
+    <addaction name="actionViewBackgroundPalette"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionHelpAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionFileNew"/>
+   <addaction name="actionFileSave"/>
+   <addaction name="actionFileLoad"/>
+   <addaction name="actionFilePrint"/>
+   <addaction name="separator"/>
+   <addaction name="actionEditToolboxPen"/>
+   <addaction name="actionEditToolboxBrush"/>
+   <addaction name="actionEditToolboxSelection"/>
+   <addaction name="actionEditToolboxEraser"/>
+   <addaction name="actionEditToolboxBucket"/>
+   <addaction name="actionEditToolboxLine"/>
+   <addaction name="actionEditToolboxColorPicker"/>
+   <addaction name="separator"/>
+   <addaction name="actionEditSelectionMoveUp"/>
+   <addaction name="actionEditSelectionMoveDown"/>
+   <addaction name="actionEditSelectionMoveLeft"/>
+   <addaction name="actionEditSelectionMoveRight"/>
+   <addaction name="actionEditSelectionText"/>
+   <addaction name="actionEditSelectionCopy"/>
+   <addaction name="actionEditSelectionCut"/>
+   <addaction name="actionEditSelectionDelete"/>
+   <addaction name="separator"/>
+   <addaction name="actionViewZoomIn"/>
+   <addaction name="actionViewZoomOut"/>
+   <addaction name="separator"/>
+   <addaction name="actionViewForegroundPalette"/>
+   <addaction name="actionViewBackgroundPalette"/>
+   <addaction name="separator"/>
+   <addaction name="actionEditUndo"/>
+   <addaction name="actionEditRedo"/>
+   <addaction name="separator"/>
+   <addaction name="actionEditClear"/>
+  </widget>
+  <action name="actionFileNew">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/common-file-empty.png</normaloff>../assets/icons/24/common-file-empty.png</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionFileSave">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/floppy-disk.png</normaloff>../assets/icons/24/floppy-disk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionFileSaveAs">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/floppy-disk.png</normaloff>../assets/icons/24/floppy-disk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save As</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionFileLoad">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/folder-empty-1.png</normaloff>../assets/icons/24/folder-empty-1.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionFileExit">
+   <property name="icon">
+    <iconset>
+     <normaloff>../icons/close.svg</normaloff>../icons/close.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionViewZoomIn">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/zoom-in.png</normaloff>../assets/icons/24/zoom-in.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="actionViewZoomOut">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/zoom-out.png</normaloff>../assets/icons/24/zoom-out.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionEditClear">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/bin-paper.png</normaloff>../assets/icons/24/bin-paper.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Del</string>
+   </property>
+  </action>
+  <action name="actionViewForegroundPalette">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/color-painting-palette.png</normaloff>../assets/icons/24/color-painting-palette.png</iconset>
+   </property>
+   <property name="text">
+    <string>Foreground Palette</string>
+   </property>
+  </action>
+  <action name="actionViewBackgroundPalette">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/color-painting-palette.png</normaloff>../assets/icons/24/color-painting-palette.png</iconset>
+   </property>
+   <property name="text">
+    <string>Background Palette</string>
+   </property>
+  </action>
+  <action name="actionEditToolboxPen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/pencil.png</normaloff>../assets/icons/24/pencil.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pen</string>
+   </property>
+   <property name="toolTip">
+    <string>Pen [Shift :: Brush][Ctrl :: Bucket][Alt :: Picker]</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+P</string>
+   </property>
+  </action>
+  <action name="actionEditToolboxEraser">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/eraser-2.png</normaloff>../assets/icons/24/eraser-2.png</iconset>
+   </property>
+   <property name="text">
+    <string>Eraser</string>
+   </property>
+   <property name="toolTip">
+    <string>Eraser [Shift :: Sponge]</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+E</string>
+   </property>
+  </action>
+  <action name="actionEditToolboxBucket">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/color-bucket.png</normaloff>../assets/icons/24/color-bucket.png</iconset>
+   </property>
+   <property name="text">
+    <string>Bucket</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+B</string>
+   </property>
+  </action>
+  <action name="actionEditToolboxColorPicker">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/color-picker-1.png</normaloff>../assets/icons/24/color-picker-1.png</iconset>
+   </property>
+   <property name="text">
+    <string>Color Picker</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+C</string>
+   </property>
+  </action>
+  <action name="actionEditToolboxLine">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/vectors-line-path.png</normaloff>../assets/icons/24/vectors-line-path.png</iconset>
+   </property>
+   <property name="text">
+    <string>Line</string>
+   </property>
+   <property name="toolTip">
+    <string>Line [Ctrl :: Vertical]</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+L</string>
+   </property>
+  </action>
+  <action name="actionEditUndo">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/undo.png</normaloff>../assets/icons/24/undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionEditRedo">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/redo.png</normaloff>../assets/icons/24/redo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
+   </property>
+  </action>
+  <action name="actionEditToolboxBrush">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/color-rolling-brush.png</normaloff>../assets/icons/24/color-rolling-brush.png</iconset>
+   </property>
+   <property name="text">
+    <string>Brush</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+R</string>
+   </property>
+  </action>
+  <action name="actionEditToolboxSelection">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/design-tool-selection-wand.png</normaloff>../assets/icons/24/design-tool-selection-wand.png</iconset>
+   </property>
+   <property name="text">
+    <string>Selection</string>
+   </property>
+   <property name="toolTip">
+    <string>Selection [Wheel :: Up/Down][Wheel+Shift :: Left/Right]</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
+   </property>
+  </action>
+  <action name="actionHelpAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionEditSelectionMoveUp">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/arrow-thick-up.png</normaloff>../assets/icons/24/arrow-thick-up.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move Up</string>
+   </property>
+   <property name="shortcut">
+    <string>Up</string>
+   </property>
+  </action>
+  <action name="actionEditSelectionMoveDown">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/arrow-thick-down.png</normaloff>../assets/icons/24/arrow-thick-down.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move Down</string>
+   </property>
+   <property name="shortcut">
+    <string>Down</string>
+   </property>
+  </action>
+  <action name="actionEditSelectionMoveLeft">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/arrow-thick-left.png</normaloff>../assets/icons/24/arrow-thick-left.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move Left</string>
+   </property>
+   <property name="shortcut">
+    <string>Left</string>
+   </property>
+  </action>
+  <action name="actionEditSelectionMoveRight">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/arrow-thick-right.png</normaloff>../assets/icons/24/arrow-thick-right.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move Right</string>
+   </property>
+   <property name="shortcut">
+    <string>Right</string>
+   </property>
+  </action>
+  <action name="actionEditSelectionCopy">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/copy-paste.png</normaloff>../assets/icons/24/copy-paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionEditSelectionCut">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/coupon-cut.png</normaloff>../assets/icons/24/coupon-cut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionEditSelectionDelete">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/remove-circle.png</normaloff>../assets/icons/24/remove-circle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionFilePrint">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/printer.png</normaloff>../assets/icons/24/printer.png</iconset>
+   </property>
+   <property name="text">
+    <string>Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionEditSelectionText">
+   <property name="icon">
+    <iconset>
+     <normaloff>../assets/icons/24/text-input-area.png</normaloff>../assets/icons/24/text-input-area.png</iconset>
+   </property>
+   <property name="text">
+    <string>Text</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionFileExportToPng">
+   <property name="text">
+    <string>Export To PNG</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_PF1_PF2">
+   <property name="text">
+    <string>Rows (PF0, PF1, PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_PF1_PF2_PF0_PF1_PF2">
+   <property name="text">
+    <string>Rows (PF0, PF1, PF2, PF0, PF1, PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_PF1_PF2_COLUPF_COLUBK">
+   <property name="text">
+    <string>Rows (PF0, PF1, PF2, COLUPF, COLUBK)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_PF1_PF2_COLUPF">
+   <property name="text">
+    <string>Rows (PF0, PF1, PF2, COLUPF)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_PF1_PF2_COLUBK">
+   <property name="text">
+    <string>Rows (PF0, PF1, PF2, COLUBK)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_PF1_PF2_PF0_PF1_PF2_COLUPF_COLUBK">
+   <property name="text">
+    <string>Rows (PF0, PF1, PF2, PF0, PF1, PF2, COLUPF, COLUBK)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_PF1_PF2_PF0_PF1_PF2_COLUPF">
+   <property name="text">
+    <string>Rows (PF0, PF1, PF2, PF0, PF1, PF2, COLUPF)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_PF1_PF2_PF0_PF1_PF2_COLUBK">
+   <property name="text">
+    <string>Rows (PF0, PF1, PF2, PF0, PF1, PF2, COLUBK)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_COLUPF_PF1_PF2_PF0_COLUPF_PF1_PF2">
+   <property name="text">
+    <string>Rows (PF0 / COLUPF, PF1, PF2, PF0 / COLUPF, PF1, PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_COLUBK_PF1_PF2_PF0_COLUBK_PF1_PF2">
+   <property name="text">
+    <string>Rows (PF0 / COLUBK, PF1, PF2, PF0 / COLUBK, PF1, PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_COLUPF_PF1_PF2_PF0_COLUPF_PF1_PF2_COLUBK">
+   <property name="text">
+    <string>Rows (PF0 / COLUPF, PF1, PF2, PF0 / COLUPF, PF1, PF2, COLUBK)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_PF0_COLUBK_PF1_PF2_PF0_COLUBK_PF1_PF2_COLUPF">
+   <property name="text">
+    <string>Rows (PF0 / COLUBK, PF1, PF2, PF0 / COLUBK, PF1, PF2, COLUPF)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRegisters">
+   <property name="text">
+    <string>Registers</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_COLUPF_COLUBK_PF0_PF1_PF2">
+   <property name="text">
+    <string>Rows (COLUPF_COLUBK_PF0_PF1_PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_COLUPF_PF0_PF1_PF2">
+   <property name="text">
+    <string>Rows (COLUPF_PF0_PF1_PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_COLUBK_PF0_PF1_PF2">
+   <property name="text">
+    <string>Rows (COLUBK_PF0_PF1_PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_COLUPF_COLUBK_PF0_PF1_PF2_PF0_PF1_PF2">
+   <property name="text">
+    <string>Rows (COLUPF_COLUBK_PF0_PF1_PF2_PF0_PF1_PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_COLUPF_PF0_PF1_PF2_PF0_PF1_PF2">
+   <property name="text">
+    <string>Rows (COLUPF_PF0_PF1_PF2_PF0_PF1_PF2)</string>
+   </property>
+  </action>
+  <action name="actionFileAsmRows_COLUBK_PF0_PF1_PF2_PF0_PF1_PF2">
+   <property name="text">
+    <string>Rows (COLUBK_PF0_PF1_PF2_PF0_PF1_PF2)</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
