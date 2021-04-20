@@ -636,32 +636,32 @@
   </action>
   <action name="actionFileAsmRows_COLUPF_COLUBK_PF0_PF1_PF2">
    <property name="text">
-    <string>Rows (COLUPF_COLUBK_PF0_PF1_PF2)</string>
+    <string>Rows (COLUPF, COLUBK, PF0, PF1, PF2)</string>
    </property>
   </action>
   <action name="actionFileAsmRows_COLUPF_PF0_PF1_PF2">
    <property name="text">
-    <string>Rows (COLUPF_PF0_PF1_PF2)</string>
+    <string>Rows (COLUPF, PF0, PF1, PF2)</string>
    </property>
   </action>
   <action name="actionFileAsmRows_COLUBK_PF0_PF1_PF2">
    <property name="text">
-    <string>Rows (COLUBK_PF0_PF1_PF2)</string>
+    <string>Rows (COLUBK, PF0, PF1, PF2)</string>
    </property>
   </action>
   <action name="actionFileAsmRows_COLUPF_COLUBK_PF0_PF1_PF2_PF0_PF1_PF2">
    <property name="text">
-    <string>Rows (COLUPF_COLUBK_PF0_PF1_PF2_PF0_PF1_PF2)</string>
+    <string>Rows (COLUPF, COLUBK, PF0, PF1, PF2, PF0, PF1, PF2)</string>
    </property>
   </action>
   <action name="actionFileAsmRows_COLUPF_PF0_PF1_PF2_PF0_PF1_PF2">
    <property name="text">
-    <string>Rows (COLUPF_PF0_PF1_PF2_PF0_PF1_PF2)</string>
+    <string>Rows (COLUPF, PF0, PF1, PF2, PF0, PF1, PF2)</string>
    </property>
   </action>
   <action name="actionFileAsmRows_COLUBK_PF0_PF1_PF2_PF0_PF1_PF2">
    <property name="text">
-    <string>Rows (COLUBK_PF0_PF1_PF2_PF0_PF1_PF2)</string>
+    <string>Rows (COLUBK, PF0, PF1, PF2, PF0, PF1, PF2)</string>
    </property>
   </action>
  </widget>

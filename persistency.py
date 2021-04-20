@@ -63,10 +63,10 @@ def deserialize_playfield(data: typing.Mapping, *args, **kwargs) -> WPlayfield:
 def save_playfield(pf: WPlayfield, to: str, version: str):
     data = serialize_playfield(pf=pf, version=version)
     with open(to, "w") as f:
-        json.dump(obj=data, fp=f)
+        json.dump(obj=data, fp=f, sort_keys=True, indent=4)
 
 
 def load_playfield(from_: str, *args, **kwargs) -> WPlayfield:
     with open(from_) as file:
         data = json.load(file)
-        return deserialize_playfield(data=data, *args, **kwargs)
+        return deserialize_playfield(data, *args, **kwargs)

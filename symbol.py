@@ -30,7 +30,7 @@ def deserialize_font(data: typing.Mapping, *args, **kwargs) -> typing.Mapping[st
     font = {}
 
     for char, pixel_data in data.items():
-        font[char] = Symbol.deserialize(data=pixel_data, *args, **kwargs)
+        font[char] = Symbol.deserialize(pixel_data, *args, **kwargs)
 
     return font
 
@@ -38,4 +38,4 @@ def deserialize_font(data: typing.Mapping, *args, **kwargs) -> typing.Mapping[st
 def load_font(filename: str, *args, **kwargs) -> typing.Mapping[str, Symbol]:
     with open(filename) as file:
         data = json.load(file)
-        return deserialize_font(data=data, *args, **kwargs)
+        return deserialize_font(data, *args, **kwargs)

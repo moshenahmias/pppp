@@ -28,6 +28,9 @@
     <height>420</height>
    </size>
   </property>
+  <property name="cursor">
+   <cursorShape>PointingHandCursor</cursorShape>
+  </property>
   <property name="windowTitle">
    <string>Frame</string>
   </property>

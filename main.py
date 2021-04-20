@@ -536,7 +536,7 @@ class Main(QMainWindow):
         def on_file_load_click():
             def init(from_: str, *args, **kwargs):
                 return load_playfield(
-                    from_, zoom=ObservableProperty(self._default_zoom), *args, **kwargs
+                    from_, *args, zoom=ObservableProperty(self._default_zoom), **kwargs
                 )
 
             files_to_load, _ = QFileDialog.getOpenFileNames(
@@ -1140,7 +1140,7 @@ class Main(QMainWindow):
         lines_to_update = set()
         i = x
         for c in text:
-            sym = font.get(c, None)
+            sym = font.get(c, font.get(c.lower(), None))
             if not sym:
                 continue
             lines_to_update.update(self._position_symbol(y=y, x=i, sym=sym, pf=pf))
