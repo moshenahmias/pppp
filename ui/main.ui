@@ -445,7 +445,7 @@
     <string>Selection</string>
    </property>
    <property name="toolTip">
-    <string>Selection [Wheel :: Up/Down][Wheel+Shift :: Left/Right]</string>
+    <string>Selection [Wheel :: Up/Down][Wheel+Shift :: Left/Right][Shift :: Fill-Select]</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+S</string>
