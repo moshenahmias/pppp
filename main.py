@@ -44,33 +44,20 @@ from models import (
 )
 from persistency import save_playfield, load_playfield
 from symbol import Symbol
-from tools import ObservableProperty, combine, is_iterable, resource_path, run_x
+from tools import (
+    ObservableProperty,
+    combine,
+    is_iterable,
+    resource_path,
+    run_x,
+    error_box,
+)
 from widgets import WPlayfield, WPixel, WPalette, WScanline
 
 version = "202104.A"
 
 font_ext = ".font"
 fonts = {}
-
-
-def error_box(errors, text=None, informative_text=None, title="Error"):
-    def decorator(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            try:
-                return f(*args, **kwargs)
-            except errors as e:
-                msg = QMessageBox()
-                msg.setIcon(QMessageBox.Critical)
-                msg.setText(text(e) if text else str(e))
-                if informative_text:
-                    msg.setInformativeText(informative_text(e))
-                msg.setWindowTitle(title)
-                msg.exec_()
-
-        return wrapper
-
-    return decorator
 
 
 class MouseEventHandler:
@@ -672,8 +659,8 @@ class Main(QMainWindow):
             lambda: self.delete_selection(self.active_pf)
         )
 
-        @error_box(Exception, text=lambda err: str(err))
-        @error_box(KeyError, text=lambda err: f"Font {str(err)} not found")
+        @error_box(Exception, text=lambda err: str(err), parent=self)
+        @error_box(KeyError, text=lambda err: f"Font {str(err)} not found", parent=self)
         def on_edit_selection_text_click(_):
             if self.active_pf:
 
@@ -1710,7 +1697,7 @@ def main():
         splash = QSplashScreen(pixmap=splash_pixmap, flags=Qt.WindowStaysOnTopHint)
         splash.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
         splash.setEnabled(False)
-        splash.showMessage(version, Qt.AlignBottom | Qt.AlignCenter, Qt.white)
+        splash.showMessage(version, Qt.AlignBottom | Qt.AlignCenter, Qt.black)
         splash.show()
         app.processEvents()
 

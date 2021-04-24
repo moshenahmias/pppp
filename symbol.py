@@ -26,7 +26,9 @@ class Symbol:
         return sym
 
 
-def deserialize_font(data: typing.Mapping, *args, **kwargs) -> typing.Mapping[str, Symbol]:
+def deserialize_font(
+    data: typing.Mapping, *args, **kwargs
+) -> typing.Mapping[str, Symbol]:
     font = {}
 
     for char, pixel_data in data.items():

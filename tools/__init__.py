@@ -4,8 +4,11 @@ import abc
 import os
 import sys
 import typing
+from functools import wraps
 
+from PyQt5.QtWidgets import QMessageBox
 from pymitter import EventEmitter
+
 T = typing.TypeVar("T")
 
 
@@ -37,7 +40,9 @@ class ObservableMatrix(typing.Generic[T], Observable):
         return f
 
     def clear(self):
-        self._data = [[self._init for _ in range(self._cols)] for _ in range(self._rows)]
+        self._data = [
+            [self._init for _ in range(self._cols)] for _ in range(self._rows)
+        ]
 
     def get(self, y: int, x: int) -> T:
         return self._data[y][x]
@@ -124,9 +129,32 @@ def is_iterable(obj: typing.Any) -> bool:
 
 
 def resource_path(relative_path):
-    return os.path.join(sys._MEIPASS if hasattr(sys, '_MEIPASS') else os.path.abspath('.'), relative_path)
+    return os.path.join(
+        sys._MEIPASS if hasattr(sys, "_MEIPASS") else os.path.abspath("."),
+        relative_path,
+    )
 
 
 def run_x(x: int, f, *args, **kwargs):
     for _ in range(x):
         f(*args, **kwargs)
+
+
+def error_box(errors, text=None, informative_text=None, title="Error", parent=None):
+    def decorator(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            try:
+                return f(*args, **kwargs)
+            except errors as e:
+                msg = QMessageBox(parent=parent)
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText(text(e) if text else str(e))
+                if informative_text:
+                    msg.setInformativeText(informative_text(e))
+                msg.setWindowTitle(title)
+                msg.exec_()
+
+        return wrapper
+
+    return decorator

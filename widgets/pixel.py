@@ -11,7 +11,9 @@ class WPixel(QWidget):
         super().__init__(*args, **kwargs)
         self.setFixedSize(self.model.width, self.model.height)
         self.setMouseTracking(True)
-        self.model.zoom.observe(lambda _, __: self.setFixedSize(self.model.width, self.model.height))
+        self.model.zoom.observe(
+            lambda _, __: self.setFixedSize(self.model.width, self.model.height)
+        )
         self.model.color.observe(lambda _, __: self.update())
         self.model.selected.observe(lambda _, __: self.update())
 

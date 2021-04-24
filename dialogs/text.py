@@ -44,7 +44,6 @@ class InsertText(QDialog):
 
         self._line_edit_text.setFocus()
 
-
     @property
     def text(self) -> str:
         return self._line_edit_text.text()
