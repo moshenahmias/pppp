@@ -7,7 +7,7 @@ from functools import partial, wraps
 
 from PyQt5 import uic, QtGui, QtPrintSupport
 from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtGui import QPixmap, QKeyEvent
+from PyQt5.QtGui import QPixmap, QCloseEvent
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -388,11 +388,15 @@ class Main(QMainWindow):
             title="background", color_mapping=palettes.ntsc
         )
 
-        def close_event(_):
+        def close_event(event: QCloseEvent):
             for pf in self._playfields.values():
-                self.ask_save_dialog(pf=pf)
+                if not self.ask_save_dialog(pf=pf):
+                    event.ignore()
+                    return
 
-        self.closeEvent = combine(self.closeEvent, close_event)
+            event.accept()
+
+        self.closeEvent = close_event
 
         @self._palette.model.code.observe
         def on_color_change(code: int, _):
@@ -755,16 +759,21 @@ class Main(QMainWindow):
                 value is not None and self._toolbox_tool == ToolboxTool.Selection
             )
 
-    def ask_save_dialog(self, pf: WPlayfield):
+    def ask_save_dialog(self, pf: WPlayfield) -> bool:
         if pf.model.need_save:
             answer = QMessageBox.question(
                 self,
                 "Save",
                 f"Save changes to {pf.model.name}?",
-                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
             )
+            if answer == QMessageBox.Cancel:
+                return False
+
             if answer == QMessageBox.Yes:
                 self.file_save_dialog(pf=pf, as_=False)
+
+            return True
 
     def file_save_dialog(self, pf: WPlayfield, as_: bool):
         if pf:
@@ -878,14 +887,17 @@ class Main(QMainWindow):
         pf_id = pf.__hash__()
         self._playfields[pf_id] = pf
 
-        def close_event(_):
-            self.ask_save_dialog(pf=pf)
-            del self._playfields[pf_id]
-            self.active_pf = typing.cast(WPlayfield, None)
-            if len(self._playfields) != 0:
-                self.active_pf = next(iter(self._playfields.values()))
+        def close_event(event: QCloseEvent):
+            if self.ask_save_dialog(pf=pf):
+                del self._playfields[pf_id]
+                self.active_pf = typing.cast(WPlayfield, None)
+                if len(self._playfields) != 0:
+                    self.active_pf = next(iter(self._playfields.values()))
+                event.accept()
+            else:
+                event.ignore()
 
-        sub.closeEvent = combine(sub.closeEvent, close_event)
+        sub.closeEvent = close_event
 
         # def key_press_event(event: QKeyEvent):
         #     #print(event.key())
@@ -1299,6 +1311,58 @@ class Main(QMainWindow):
             line.model.palette_code.value = line.model.palette_code.value
 
         @self._mouse_press_handler.register(
+            tools=ToolboxTool.Selection,
+            buttons=Qt.MouseButton.LeftButton,
+            keyboard_modifiers=Qt.ShiftModifier,
+        )
+        def fill_select(*, pf: WPlayfield, y: int, x: int, **_):
+            visited = [
+                [False for _ in range(ScanlineModel.pixel_count)]
+                for _ in range(pf.model.scanline_count)
+            ]
+
+            lines_to_update = set()
+
+            s = deque()
+            s.append((y, x))
+
+            while len(s) > 0:
+                j, i = s.pop()
+
+                if (
+                    i < 0
+                    or i > ScanlineModel.pixel_count - 1
+                    or j < 0
+                    or j > pf.model.scanline_count - 1
+                ):
+                    continue
+
+                if visited[j][i]:
+                    continue
+
+                visited[j][i] = True
+
+                line = pf[j]
+
+                if not line.model.pixels[i]:
+                    continue
+
+                line.model.selection[i] = True
+                neighbor = pf.model.neighbor(i)
+                if neighbor:
+                    line.model.selection[neighbor] = True
+
+                lines_to_update.add(line)
+
+                s.append((j, i - 1))
+                s.append((j, i + 1))
+                s.append((j - 1, i))
+                s.append((j + 1, i))
+
+            for line_ in lines_to_update:
+                line_.model.palette_code.value = line_.model.palette_code.value
+
+        @self._mouse_press_handler.register(
             tools=ToolboxTool.Selection, buttons=Qt.MouseButton.RightButton
         )
         def clear_selection(*, pf: WPlayfield, **_):
@@ -1460,9 +1524,13 @@ class Main(QMainWindow):
             def calc_lines_to_update(
                 j: int,
                 i: int,
-                visited: typing.List[typing.List[bool]],
                 lines: typing.Set[int],
             ):
+                visited = [
+                    [False for _ in range(ScanlineModel.pixel_count)]
+                    for _ in range(pf.model.scanline_count)
+                ]
+
                 s = deque()
                 s.append((j, i))
 
@@ -1476,7 +1544,9 @@ class Main(QMainWindow):
 
                     pixel = pf[j][i]
                     pixel_above = pf[j - 1][i] if j > 0 else None
-                    pixel_below = pf[j + 1][i] if j < pf.model.scanline_count - 1 else None
+                    pixel_below = (
+                        pf[j + 1][i] if j < pf.model.scanline_count - 1 else None
+                    )
                     pixel_left = pf[j][i - 1] if i > 0 else None
                     pixel_right = (
                         pf[j][i + 1] if i < ScanlineModel.pixel_count - 1 else None
@@ -1488,7 +1558,7 @@ class Main(QMainWindow):
                         and pixel_above.model.color.value == pixel.model.color.value
                     ):
                         lines.add(j - 1)
-                        s.append((j-1, i))
+                        s.append((j - 1, i))
 
                     if (
                         pixel_left
@@ -1517,10 +1587,6 @@ class Main(QMainWindow):
                 calc_lines_to_update(
                     j=y,
                     i=x,
-                    visited=[
-                        [False for _ in range(ScanlineModel.pixel_count)]
-                        for _ in range(pf.model.scanline_count)
-                    ],
                     lines=to_update_lines,
                 )
 
