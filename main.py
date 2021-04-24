@@ -2,7 +2,7 @@ import os
 import sys
 import time
 import typing
-from collections import defaultdict
+from collections import defaultdict, deque
 from functools import partial, wraps
 
 from PyQt5 import uic, QtGui, QtPrintSupport
@@ -575,6 +575,7 @@ class Main(QMainWindow):
 
         def on_edit_clear_click():
             if self.active_pf:
+                self.clear_selection(pf=self.active_pf)
                 self.execute(
                     pf=self.active_pf,
                     command=ClearPixels(
@@ -587,12 +588,14 @@ class Main(QMainWindow):
 
         def on_edit_undo_click():
             if self.active_pf:
+                self.clear_selection(pf=self.active_pf)
                 self.undo(pf=self.active_pf)
 
         self._action_edit_undo.triggered.connect(on_edit_undo_click)
 
         def on_edit_redo_click():
             if self.active_pf:
+                self.clear_selection(pf=self.active_pf)
                 self.redo(pf=self.active_pf)
 
         self._action_edit_redo.triggered.connect(on_edit_redo_click)
@@ -1460,49 +1463,54 @@ class Main(QMainWindow):
                 visited: typing.List[typing.List[bool]],
                 lines: typing.Set[int],
             ):
+                s = deque()
+                s.append((j, i))
 
-                if visited[j][i]:
-                    return
+                while len(s) > 0:
+                    j, i = s.pop()
 
-                visited[j][i] = True
+                    if visited[j][i]:
+                        continue
 
-                pixel = pf[j][i]
-                pixel_above = pf[j - 1][i] if j > 0 else None
-                pixel_below = pf[j + 1][i] if j < pf.model.scanline_count - 1 else None
-                pixel_left = pf[j][i - 1] if i > 0 else None
-                pixel_right = (
-                    pf[j][i + 1] if i < ScanlineModel.pixel_count - 1 else None
-                )
+                    visited[j][i] = True
 
-                if (
-                    pixel_above
-                    and pf[j - 1].model.pixels[i]
-                    and pixel_above.model.color.value == pixel.model.color.value
-                ):
-                    lines.add(j - 1)
-                    calc_lines_to_update(j=j - 1, i=i, visited=visited, lines=lines)
+                    pixel = pf[j][i]
+                    pixel_above = pf[j - 1][i] if j > 0 else None
+                    pixel_below = pf[j + 1][i] if j < pf.model.scanline_count - 1 else None
+                    pixel_left = pf[j][i - 1] if i > 0 else None
+                    pixel_right = (
+                        pf[j][i + 1] if i < ScanlineModel.pixel_count - 1 else None
+                    )
 
-                if (
-                    pixel_left
-                    and pf[j].model.pixels[i - 1]
-                    and pixel_left.model.color.value == pixel.model.color.value
-                ):
-                    calc_lines_to_update(j=j, i=i - 1, visited=visited, lines=lines)
+                    if (
+                        pixel_above
+                        and pf[j - 1].model.pixels[i]
+                        and pixel_above.model.color.value == pixel.model.color.value
+                    ):
+                        lines.add(j - 1)
+                        s.append((j-1, i))
 
-                if (
-                    pixel_right
-                    and pf[j].model.pixels[i + 1]
-                    and pixel_right.model.color.value == pixel.model.color.value
-                ):
-                    calc_lines_to_update(j=j, i=i + 1, visited=visited, lines=lines)
+                    if (
+                        pixel_left
+                        and pf[j].model.pixels[i - 1]
+                        and pixel_left.model.color.value == pixel.model.color.value
+                    ):
+                        s.append((j, i - 1))
 
-                if (
-                    pixel_below
-                    and pf[j + 1].model.pixels[i]
-                    and pixel_below.model.color.value == pixel.model.color.value
-                ):
-                    lines.add(j + 1)
-                    calc_lines_to_update(j=j + 1, i=i, visited=visited, lines=lines)
+                    if (
+                        pixel_right
+                        and pf[j].model.pixels[i + 1]
+                        and pixel_right.model.color.value == pixel.model.color.value
+                    ):
+                        s.append((j, i + 1))
+
+                    if (
+                        pixel_below
+                        and pf[j + 1].model.pixels[i]
+                        and pixel_below.model.color.value == pixel.model.color.value
+                    ):
+                        lines.add(j + 1)
+                        s.append((j + 1, i))
 
             if line.model.pixels[x]:
                 to_update_lines: typing.Set[int] = {y}

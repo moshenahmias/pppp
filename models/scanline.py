@@ -47,8 +47,11 @@ class ScanlineModel:
 
     def copy_selection(self):
         for i in range(default_pixel_count):
-            if self.selection[i] and self.pixels[i]:
-                self.layer_1[i] = self.pixels[i]
+            if self.selection[i]:
+                if self.layer_1[i]:
+                    self.pixels[i] = True
+                elif self.pixels[i]:
+                    self.layer_1[i] = True
 
     def cut_selection(self) -> typing.Set[int]:
         mods = set()
